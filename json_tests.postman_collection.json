@@ -1,0 +1,188 @@
+{
+	"info": {
+		"_postman_id": "63fd09b7-9138-4f7c-8432-1369e96c67cf",
+		"name": "json tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://swapi.co/api/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "686a429e-8a6c-4328-b8b8-1dcf5e526fe9",
+						"exec": [
+							"// 1. Correct response format JSON - проверяем придет ли корректный JSON-файл",
+							"pm.test(\"Correct response format JSON\", function() {",
+							"    pm.response.to.have.jsonBody()",
+							"});",
+							"",
+							"// 2. We have all the diclared fields on response - проверяем все ли задекларированные поля придут в JSON-файлу",
+							"pm.test(\"Check that we have all diclared fields in response\", function() {",
+							"    const jsonData = pm.response.json();",
+							"    ",
+							"    pm.expect(jsonData).to.have.property(\"people\");",
+							"    pm.expect(jsonData).to.have.property(\"planets\");",
+							"    pm.expect(jsonData).to.have.property(\"films\");",
+							"    pm.expect(jsonData).to.have.property(\"species\");",
+							"    pm.expect(jsonData).to.have.property(\"vehicles\");",
+							"    pm.expect(jsonData).to.have.property(\"starships\");",
+							"});",
+							"",
+							"// 3. Field value is not NULL - проверяем, чтобы поля в JSON-файле не были равны null",
+							"pm.test(\"Check if value isn`t NULL\", function() {",
+							"    var jsonData = pm.response.json();",
+							"    ",
+							"    pm.expect(jsonData.people).not.equal(null);",
+							"    pm.expect(jsonData.planets).not.equal(null);",
+							"    pm.expect(jsonData.films).not.equal(null);",
+							"    pm.expect(jsonData.species).not.equal(null);",
+							"    pm.expect(jsonData.vehicles).not.equal(null);",
+							"    pm.expect(jsonData.starships).not.equal(null);",
+							"});",
+							"",
+							"// 4. Field value is not empty - проверяем, чтобы поля в JSON-фауле были не пустые",
+							"pm.test(\"Check if value isn`t empty\", function() {",
+							"    var jsonData = pm.response.json();",
+							"    ",
+							"    pm.expect(jsonData.people).not.equal(\"\");",
+							"    pm.expect(jsonData.planets).not.equal(\"\");",
+							"    pm.expect(jsonData.films).not.equal(\"\");",
+							"    pm.expect(jsonData.species).not.equal(\"\");",
+							"    pm.expect(jsonData.vehicles).not.equal(\"\");",
+							"    pm.expect(jsonData.starships).not.equal(\"\");",
+							"});",
+							"",
+							"// 5. Check if field corresponds a specific value - проверим содержит ли JSON-файл какую-то определенную информацию",
+							"pm.test(\"Check if field corresponds a specific value\", function() {",
+							"    var jsonData = pm.response.json();",
+							"    ",
+							"    pm.expect(jsonData.people).to.equal(\"https://swapi.co/api/people/\");",
+							"    pm.expect(jsonData.planets).to.equal(\"https://swapi.co/api/planets/\");",
+							"    pm.expect(jsonData.films).to.equal(\"https://swapi.co/api/films/\");",
+							"    pm.expect(jsonData.species).to.equal(\"https://swapi.co/api/species/\");",
+							"    pm.expect(jsonData.vehicles).to.equal(\"https://swapi.co/api/vehicles/\");",
+							"    pm.expect(jsonData.starships).to.equal(\"https://swapi.co/api/starships/\");",
+							"});",
+							"",
+							"// 6. Check if status code is 200 - проверим, что статус запроса равен 200 (ок)",
+							"pm.test(\"Check if status code is 200\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// 7. Check if status messege is \"OK\" - проверим, что ответ запроса будет \"ОК\"",
+							"pm.test(\"Check if status messege is OK\", function() {",
+							"    pm.response.to.have.status(\"OK\");",
+							"});",
+							"",
+							"// 8. Response time is less than 1000ms - тут проверяем, чтобы ответ от сервера был менее 1000 мс",
+							"pm.test(\"Response time is less than 1000ms\", function() {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"// 9. There is a specific header in the response - тут проверяем, что запрос содержит определенный заголовок \"Content-Type\"",
+							"pm.test(\"There is a specific header in the response\", function() {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"// 10. The response has a specific header with specific value - тут проверяем, что запрос содержит определенный заголовок \"Content-Type\" с определенным параметром \"application/json\". Проще говоря мы проверяем, чтобы контент приходил в json-файле, т.к. для нас это важно",
+							"pm.test('The response has a specific header with specific value', function(){ ",
+							"    pm.response.to.be.header(\"Content-type\", \"application/json\");",
+							"});",
+							"",
+							"// 11. Cookie exist - проверяем наличие кук",
+							"pm.test(\"Cookie exist\", function() {",
+							"    pm.cookies.has(\"__cfduid\");",
+							"});",
+							"",
+							"// 12. Cookie has value - проверяем чтобы куки содержали определенные значения",
+							"pm.test(\"Cookie has value\", function () {",
+							"    try{",
+							"        var MY_COOKIE = pm.cookies.get(\"__cfduid\");",
+							"        console.log(MY_COOKIE);",
+							"    } catch(e) {",
+							"        console.log(\"S)ME PROBLEM WITH COOKIE ->\" + e);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.co/api/",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"co"
+					],
+					"path": [
+						"api",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://swapi.co/api/",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2e226860-306c-4fbc-9b43-b27155f847c1",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"",
+							"var schema = {",
+							"    \"type\": \"object\", // проверяем тип приходящего ответа JSON-файла",
+							"    \"required\": [\"people\", \"planets\", \"films\", \"species\", \"vehicles\", \"starships\"], // проверяем обязательные ли поля в JSON-файлу",
+							"    \"properties\": {",
+							"        \"people\": {\"type\": \"string\"},",
+							"        \"planets\": {\"type\": \"string\"},",
+							"        \"films\": {\"type\": \"string\"},",
+							"        \"species\": {\"type\": \"string\"},",
+							"        \"vehicles\": {\"type\": \"string\"},",
+							"        \"starships\": {\"type\": \"string\"},",
+							"    }",
+							"};",
+							"pm.test(\"Body is correct\", function() {",
+							"    pm.expect(tv4.validate(data, schema)).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://swapi.co/api/",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"co"
+					],
+					"path": [
+						"api",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
